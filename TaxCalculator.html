@@ -161,6 +161,24 @@ span {
             <button type="submit">Proceed to Calculation</button>
         </form>
     </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const numberInputs = document.querySelectorAll('input[type="text"]');
+        
+        numberInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                const value = this.value.trim();
+                const isValidNumber = /^[0-9]+$/.test(value);
+                const errorIcon = this.parentElement.querySelector('.errorIcon');
     
+                if (isValidNumber || value === '') {
+                    errorIcon.style.display = 'none';
+                } else {
+                    errorIcon.style.display = 'inline-block';
+                }
+            });
+        });
+    });
+    </script>
 </body>
 </html>
