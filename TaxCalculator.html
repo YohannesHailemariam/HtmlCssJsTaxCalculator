@@ -145,8 +145,11 @@ span {
     display: block; 
 }
 
-#result{
+#netIncome{
     color: white;
+    font-size: xx-large;
+    font: bold;
+    margin-bottom: 20px;
 }
     </style>
     </head>
@@ -182,7 +185,11 @@ span {
             </div>
             <button type="submit">Proceed to Calculation</button>
         </form>
-        <div id="result"></div>
+        <div id="resultSection" style="display: none;">
+            <h2>Net Income</h2>
+            <div id="netIncome"></div>
+            <button id="backButton">Perform Another Calculation</button>
+        </div>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -222,6 +229,7 @@ span {
         });
         
         document.getElementById('taxForm').addEventListener('submit', function(e) {
+            console.log('DOM content loaded');
             e.preventDefault();
             const grossSalary = parseFloat(document.getElementById('grossSalary').value);
             const extraIncome = parseFloat(document.getElementById('extraIncome').value);
@@ -248,7 +256,9 @@ span {
                 }
             }
 
-            document.getElementById('result').innerHTML = `Net Income: $${netIncome.toFixed(2)}`;
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('netIncome').innerText = `$${netIncome.toFixed(2)}`;
+            document.getElementById('taxForm').style.display = 'none';
         });
     </script>
 </body>
