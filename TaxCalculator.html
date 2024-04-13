@@ -188,7 +188,7 @@ span {
         <div id="resultSection" style="display: none;">
             <h2>Net Income</h2>
             <div id="netIncome"></div>
-            <button id="backButton">Perform Another Calculation</button>
+            <button id="backButton">Perform Another Tax Calculation</button>
         </div>
     </div>
     <script>
@@ -208,6 +208,22 @@ span {
                     }
                 });
             });
+            
+
+            // Event listener for the "Perform Another Calculation" button
+            document.getElementById('backButton').addEventListener('click', function() {
+                document.getElementById('resultSection').style.display = 'none';
+                document.getElementById('taxForm').style.display = 'block';
+                // Clear any previous results
+                document.getElementById('netIncome').innerText = '';
+                // Optionally, reset input fields if needed
+                document.getElementById('grossSalary').value = '';
+                document.getElementById('extraIncome').value = '';
+                document.getElementById('deductions').value = '';
+                document.getElementById('age').value = '';
+            });
+
+
         });
 
         document.addEventListener('DOMContentLoaded', function() {
