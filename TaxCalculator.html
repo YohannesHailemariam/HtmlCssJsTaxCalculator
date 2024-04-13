@@ -110,9 +110,21 @@ button:hover{
 
 .dropdown{
     padding-top: 20px;
-    padding-bottom: 30px;
+    padding-bottom: 50px;
     width: 100%;
+    position: relative;
 }
+
+#ageErrorIcon{
+    display: absolute;
+    top: 60px;
+}
+
+#ageErrTxt{
+    display: absolute;
+    top: 60px;
+}
+
 
 .dropdown select {
     width: 100%;
@@ -182,6 +194,8 @@ span {
                     <option class="option" value="2"> Between 40 and 60 </option>
                     <option class="option" value="3"> Greater than or equal to 60 </option>
                 </select>
+                <span id="ageErrorIcon" class="errorIcon" style="display: none;"><i class="fa-solid fa-circle-exclamation"></i></span>
+                <p id="ageErrTxt" class="errTxt" style="display: none;">Age selection is mandatory</p>
             </div>
             <button type="submit">Proceed to Calculation</button>
         </form>
@@ -252,6 +266,15 @@ span {
             const deductions = parseFloat(document.getElementById('deductions').value);
             const age = document.getElementById('age').value;
             let netIncome = 0;
+
+             // Validate if age is selected
+            if (age === '') {
+                const ageErrorIcon = document.getElementById('ageErrorIcon');
+                const ageErrTxt = document.getElementById('ageErrTxt');
+                ageErrorIcon.style.display = 'inline-block';
+                ageErrTxt.style.display = 'block';
+                return;
+            }
 
             if (isNaN(grossSalary) || isNaN(extraIncome) || isNaN(deductions)) {
                 alert('Please enter valid numbers.');
