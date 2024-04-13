@@ -137,80 +137,119 @@ span {
     display: none;
 }
 
+.errorIcon:hover{
+    cursor: pointer;
+}
+
 .errorIcon:hover + .errTxt {
     display: block; 
+}
+
+#result{
+    color: white;
 }
     </style>
     </head>
     <div class="wrapper">
-        <form action="#">
+        <form id="taxForm">
             <h2>Tax Calculator</h2>
             <div class="input-field">
-                <input id="numberInput" type="text" required>
+                <input id="grossSalary" type="text" required>
                 <span class="errorIcon"><i class="fa-solid fa-circle-exclamation"></i></span>
                 <p class="errTxt">Gross salary should be in number</p>
                 <label>Enter Gross Salary</label>
             </div>
             <div class="input-field">
-                <input id="numberInput" type="text" required>
+                <input id="extraIncome" type="text" required>
                 <span class="errorIcon"><i class="fa-solid fa-circle-exclamation"></i></span>
                 <p class="errTxt">Extra income should be in number</p>
                 <label>Enter Extra Income</label>
             </div>
             <div class="input-field">
-                <input id="numberInput" type="text" required>
+                <input id="deductions" type="text" required>
                 <span class="errorIcon"><i class="fa-solid fa-circle-exclamation"></i></span>
                 <p class="errTxt">Deductions should be in number</p>
                 <label>Enter Deductions</label>
             </div>
             <div class="dropdown">
                 <label for="age"></label>
-                <select id="" name="">
+                <select id="age" name="age">
                     <option class="option" value="" disabled selected> Select Age </option>
                     <option class="option" value="1"> Less than 40 </option>
                     <option class="option" value="2"> Between 40 and 60 </option>
-                    <option class="option" value="3"> Greater than 60 </option>
+                    <option class="option" value="3"> Greater than or equal to 60 </option>
                 </select>
             </div>
             <button type="submit">Proceed to Calculation</button>
         </form>
+        <div id="result"></div>
     </div>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const numberInputs = document.querySelectorAll('input[type="text"]');
+        document.addEventListener('DOMContentLoaded', function() {
+            const numberInputs = document.querySelectorAll('input[type="text"]');
         
-        numberInputs.forEach(input => {
-            input.addEventListener('input', function() {
-                const value = this.value.trim();
-                const isValidNumber = /^[0-9]+$/.test(value);
-                const errorIcon = this.parentElement.querySelector('.errorIcon');
+            numberInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const value = this.value.trim();
+                    const isValidNumber = /^[0-9]+$/.test(value);
+                    const errorIcon = this.parentElement.querySelector('.errorIcon');
     
-                if (isValidNumber || value === '') {
-                    errorIcon.style.display = 'none';
-                } else {
-                    errorIcon.style.display = 'inline-block';
+                    if (isValidNumber || value === '') {
+                        errorIcon.style.display = 'none';
+                    } else {
+                        errorIcon.style.display = 'inline-block';
+                    }
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const errorIcons = document.querySelectorAll('.errorIcon');
+
+                errorIcons.forEach(icon => {
+                    icon.addEventListener('mouseenter', function() {
+                        const associatedTextId = this.id.replace('Error', 'ErrorText');
+                        const errorText = document.getElementById(associatedTextId);
+                        errTxt.style.display = 'block';
+                });
+
+                icon.addEventListener('mouseleave', function() {
+                    const associatedTextId = this.id.replace('Error', 'ErrorText');
+                    const errorText = document.getElementById(associatedTextId);
+                    errTxt.style.display = 'none';
+                });
+                });
+        });
+        
+        document.getElementById('taxForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const grossSalary = parseFloat(document.getElementById('grossSalary').value);
+            const extraIncome = parseFloat(document.getElementById('extraIncome').value);
+            const deductions = parseFloat(document.getElementById('deductions').value);
+            const age = document.getElementById('age').value;
+            let netIncome = 0;
+
+            if (isNaN(grossSalary) || isNaN(extraIncome) || isNaN(deductions)) {
+                alert('Please enter valid numbers.');
+                return;
+            }
+
+            const totalIncome = grossSalary + extraIncome - deductions;
+            
+            if (totalIncome <= 8) {
+                netIncome = totalIncome;
+            } else {
+                if (age === '1') { // Less than 40
+                    netIncome = totalIncome * 0.7; // 30% deduction
+                } else if (age === '2') { // Between 40 and 60
+                    netIncome = totalIncome * 0.6; // 40% deduction
+                } else { // Greater than 60
+                    netIncome = totalIncome * 0.9; // 10% deduction
                 }
-            });
+            }
+
+            document.getElementById('result').innerHTML = `Net Income: $${netIncome.toFixed(2)}`;
         });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const errorIcons = document.querySelectorAll('.errorIcon');
-
-        errorIcons.forEach(icon => {
-            icon.addEventListener('mouseenter', function() {
-                const associatedTextId = this.id.replace('Error', 'ErrorText');
-                const errorText = document.getElementById(associatedTextId);
-                errTxt.style.display = 'block';
-            });
-
-            icon.addEventListener('mouseleave', function() {
-                const associatedTextId = this.id.replace('Error', 'ErrorText');
-                const errorText = document.getElementById(associatedTextId);
-                errTxt.style.display = 'none';
-            });
-        });
-    });
     </script>
 </body>
 </html>
