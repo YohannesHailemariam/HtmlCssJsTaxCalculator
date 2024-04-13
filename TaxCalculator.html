@@ -48,7 +48,7 @@ h2{
 .input-field{
     position: relative;
     border-bottom: 2px solid #ccc;
-    margin: 15px 0;
+    margin: 25px 0;
 }
 
 .input-field label{
@@ -109,7 +109,7 @@ button:hover{
 }
 
 .dropdown{
-    padding-top: 10px;
+    padding-top: 20px;
     padding-bottom: 30px;
     width: 100%;
 }
@@ -121,6 +121,7 @@ button:hover{
     color: white;
 }
 
+
 span {
     color: red;
     position: absolute;
@@ -129,6 +130,16 @@ span {
     display: none;
 }
 
+.errTxt{
+    color: red;
+    position: absolute;
+    top: 50px;
+    display: none;
+}
+
+.errorIcon:hover + .errTxt {
+    display: block; 
+}
     </style>
     </head>
     <div class="wrapper">
@@ -137,16 +148,19 @@ span {
             <div class="input-field">
                 <input id="numberInput" type="text" required>
                 <span class="errorIcon"><i class="fa-solid fa-circle-exclamation"></i></span>
+                <p class="errTxt">Gross salary should be in number</p>
                 <label>Enter Gross Salary</label>
             </div>
             <div class="input-field">
                 <input id="numberInput" type="text" required>
                 <span class="errorIcon"><i class="fa-solid fa-circle-exclamation"></i></span>
+                <p class="errTxt">Extra income should be in number</p>
                 <label>Enter Extra Income</label>
             </div>
             <div class="input-field">
                 <input id="numberInput" type="text" required>
                 <span class="errorIcon"><i class="fa-solid fa-circle-exclamation"></i></span>
+                <p class="errTxt">Deductions should be in number</p>
                 <label>Enter Deductions</label>
             </div>
             <div class="dropdown">
@@ -176,6 +190,24 @@ span {
                 } else {
                     errorIcon.style.display = 'inline-block';
                 }
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const errorIcons = document.querySelectorAll('.errorIcon');
+
+        errorIcons.forEach(icon => {
+            icon.addEventListener('mouseenter', function() {
+                const associatedTextId = this.id.replace('Error', 'ErrorText');
+                const errorText = document.getElementById(associatedTextId);
+                errTxt.style.display = 'block';
+            });
+
+            icon.addEventListener('mouseleave', function() {
+                const associatedTextId = this.id.replace('Error', 'ErrorText');
+                const errorText = document.getElementById(associatedTextId);
+                errTxt.style.display = 'none';
             });
         });
     });
